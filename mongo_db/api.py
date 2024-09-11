@@ -349,4 +349,4 @@ async def get_schemas(db_name: str, collection_name: str):
 # Codice per eseguire l'applicazione
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("api:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("api:app", host="0.0.0.0", port=8094, reload=True)
