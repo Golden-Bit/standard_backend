@@ -6,7 +6,7 @@ import requests
 from user_manager.utils import UserInDB, get_current_user
 
 # URL del servizio MongoDB
-MONGO_SERVICE_URL = "http://127.0.0.1:8000"
+MONGO_SERVICE_URL = "http://127.0.0.1:8094"
 
 router = APIRouter(
     prefix="/mongo",

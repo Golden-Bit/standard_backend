@@ -18,7 +18,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 # URL del servizio MongoDB
-MONGO_SERVICE_URL = "http://127.0.0.1:8000"
+MONGO_SERVICE_URL = "http://127.0.0.1:8094"
 
 
 # Modello per i permessi
