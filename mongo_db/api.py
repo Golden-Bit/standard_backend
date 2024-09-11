@@ -82,14 +82,20 @@ async def delete_database(db_name: str):
 
 @app.post("/{db_name}/create_collection/", summary="Crea una nuova collezione", response_description="La collezione è stata creata con successo")
 async def create_collection(db_name: str, collection_name: str):
+
     """
     Crea una nuova collezione all'interno di un database esistente.
 
     - **db_name**: Nome del database
     - **collection_name**: Nome della collezione da creare
     """
+
     try:
         db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
+    try:
         await db.create_collection(collection_name)
         return {"message": f"Collection '{collection_name}' created successfully in database '{db_name}'."}
     except Exception as e:
@@ -103,8 +109,14 @@ async def list_collections(db_name: str):
 
     - **db_name**: Nome del database
     """
+
     try:
         db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
+    try:
+        #db = get_db_instance(db_name)
         collection_list = await db.list_collection_names()
         return {"collections": collection_list}
     except Exception as e:
@@ -165,9 +177,15 @@ async def add_item(db_name: str, collection_name: str, data: Dict[str, Any]):
     - **collection_name**: Nome della collezione
     - **data**: Dati del documento da inserire
     """
+
+    try:
+        db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
     try:
         validated_data = validate_input(db_name, collection_name, data)
-        db = get_db_instance(db_name)
+        #db = get_db_instance(db_name)
         collection = db[collection_name]
         result = await collection.insert_one(validated_data)
         return {"message": "Item added successfully.", "id": str(result.inserted_id)}
@@ -195,9 +213,15 @@ async def get_items(db_name: str, collection_name: str, filter: Optional[Dict[st
     - **collection_name**: Nome della collezione
     - **filter**: (Opzionale) Filtro per limitare i documenti restituiti
     """
-    query = filter if filter else {}
+
     try:
         db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
+    query = filter if filter else {}
+    try:
+        #db = get_db_instance(db_name)
         collection = db[collection_name]
         items = []
         async for item in collection.find(query):
@@ -218,8 +242,14 @@ async def update_item(db_name: str, collection_name: str, item_id: str, item: Di
     - **item_id**: ID del documento da aggiornare
     - **item**: Nuovi dati del documento
     """
+
     try:
         db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
+    try:
+        #db = get_db_instance(db_name)
         collection = db[collection_name]
         result = await collection.update_one({"_id": ObjectId(item_id)}, {"$set": item})
         if result.modified_count:
@@ -239,8 +269,14 @@ async def delete_item(db_name: str, collection_name: str, item_id: str):
     - **collection_name**: Nome della collezione
     - **item_id**: ID del documento da eliminare
     """
+
     try:
         db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
+    try:
+        #db = get_db_instance(db_name)
         collection = db[collection_name]
         result = await collection.delete_one({"_id": ObjectId(item_id)})
         if result.deleted_count:
@@ -261,8 +297,14 @@ async def get_item(db_name: str, collection_name: str, item_id: str):
     - **collection_name**: Nome della collezione
     - **item_id**: ID del documento da recuperare
     """
+
     try:
         db = get_db_instance(db_name)
+    except ValueError:
+        db = await add_database(db_name)
+
+    try:
+        #db = get_db_instance(db_name)
         collection = db[collection_name]
         item = await collection.find_one({"_id": ObjectId(item_id)})
         if item:

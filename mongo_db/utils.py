@@ -37,8 +37,6 @@ def get_db_instance(db_name: str):
         raise ValueError(f"Database '{db_name}' not found. Please create it first.")
 
 
-
-
 def create_pydantic_model(schema_name: str, schema: Dict[str, Any]):
     """
     Crea un modello Pydantic dinamico basato su uno schema YAML.
