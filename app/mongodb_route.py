@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, status, UploadFile, File
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import requests
-
+import json
 from app.utils import UserInDB, get_current_user
 
 config_file = open("config.json")
