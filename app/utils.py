@@ -19,8 +19,8 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-config_file = open("config.json", "rb")
-config_dict = json.loads(config_file)
+config_file = open("config.json")
+config_dict = json.load(config_file)
 # URL del servizio MongoDB
 MONGO_SERVICE_URL = config_dict["mongodb_service_url"]
 
