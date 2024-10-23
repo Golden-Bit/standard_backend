@@ -3,10 +3,12 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import requests
 
-from user_manager.utils import UserInDB, get_current_user
+from app.utils import UserInDB, get_current_user
 
+config_file = open("config.json", "rb")
+config_dict = json.loads(config_file)
 # URL del servizio MongoDB
-MONGO_SERVICE_URL = "http://127.0.0.1:8094"
+MONGO_SERVICE_URL = config_dict["mongo_service_url"]
 
 router = APIRouter(
     prefix="/mongo",

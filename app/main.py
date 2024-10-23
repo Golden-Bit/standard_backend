@@ -8,10 +8,10 @@ import requests
 from datetime import datetime, timedelta
 import os
 from fastapi.middleware.cors import CORSMiddleware
-from user_manager import mongodb_route
+from app import mongodb_route
 #import mongodb_route
 #from utils import UserInDB, MONGO_SERVICE_URL, get_password_hash, Token, verify_password, \
-from user_manager.utils import UserInDB, MONGO_SERVICE_URL, get_password_hash, Token, verify_password, \
+from app.utils import UserInDB, MONGO_SERVICE_URL, get_password_hash, Token, verify_password, \
     ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS, create_access_token, create_refresh_token, \
     store_token_in_db, UserDeleteRequest, get_current_user, SECRET_KEY, ALGORITHM, get_token_from_db, oauth2_scheme, \
     revoke_token_in_db, User, PasswordChangeRequest, DatabaseCreationRequest
@@ -361,7 +361,7 @@ app.include_router(mongodb_route.router)
 
 
 # Codice per eseguire l'applicazione
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("api:app", host="0.0.0.0", port=8095, reload=False)
+#if __name__ == "__main__":
+#    import uvicorn
+#
+#    uvicorn.run("main:app", host="0.0.0.0", port=8095, reload=False)
