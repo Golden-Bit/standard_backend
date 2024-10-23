@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional, Union, Any, Dict
@@ -17,8 +19,10 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
+config_file = open("config.json", "rb")
+config_dict = json.loads(config_file)
 # URL del servizio MongoDB
-MONGO_SERVICE_URL = "http://127.0.0.1:8094"
+MONGO_SERVICE_URL = config_dict["mongodb_service_url"]
 
 
 # Modello per i permessi

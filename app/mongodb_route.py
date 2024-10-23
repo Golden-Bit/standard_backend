@@ -8,7 +8,7 @@ from app.utils import UserInDB, get_current_user
 config_file = open("config.json", "rb")
 config_dict = json.loads(config_file)
 # URL del servizio MongoDB
-MONGO_SERVICE_URL = config_dict["mongo_service_url"]
+MONGO_SERVICE_URL = config_dict["mongodb_service_url"]
 
 router = APIRouter(
     prefix="/mongo",
