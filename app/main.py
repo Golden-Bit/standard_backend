@@ -78,12 +78,14 @@ def register_user(user: UserInDB):
     user_in_db["manager_users"] = []
     user_in_db["databases"] = []
 
+    print("#"*120)
+    print(MONGO_SERVICE_URL)
     response = requests.post(f"{MONGO_SERVICE_URL}/database/users_collection/add_item", json=user_in_db)
-
+    print("#" * 120)
     if response.status_code != 200:
         print(response.__dict__)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Error registering user")
-
+        print("#" * 120)
     return {"message": "User registered successfully"}
 
 
