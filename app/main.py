@@ -84,8 +84,10 @@ def register_user(user: UserInDB):
     print("#" * 120)
     if response.status_code != 200:
         print(response.__dict__)
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Error registering user")
         print("#" * 120)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Error registering user")
+
+
     return {"message": "User registered successfully"}
 
 
