@@ -30,6 +30,7 @@ Include funzionalità di autenticazione, autorizzazione e gestione delle relazio
 * Eliminazione account
 """,
     version="1.0.0",
+    root_path="/user-backend"
 )
 
 
