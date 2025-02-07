@@ -105,7 +105,7 @@ async def create_collection(db_name: str, collection_name: str, current_user: Us
         response = requests.post(f"{MONGO_SERVICE_URL}/{db_name}/create_collection/",
                                  params={"collection_name": collection_name})
         if response.status_code != 200:
-            print(response.__dict__)
+
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail="Errore nella creazione della collezione.")
         return {"message": f"Collection '{collection_name}' created successfully in database '{db_name}'."}
