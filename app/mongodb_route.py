@@ -39,7 +39,7 @@ async def create_user_database(request: DatabaseCreationRequest, current_user: U
     """
     username = current_user.username
     prefixed_db_name = f"{username}-{request.db_name}"
-    host = "localhost"
+    host = request
     port = 27017
 
     try:
@@ -332,3 +332,39 @@ async def delete_database(db_name: str, current_user: UserInDB = Depends(get_cur
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail=f"Errore durante l'eliminazione del database: {str(e)}")
+
+
+@router.post(
+    "/{db_name}/search",
+    summary="Ricerca documenti con filtro e paginazione",
+    response_description="Risultati della ricerca con parametri di paginazione"
+)
+async def search_documents(
+    db_name: str,
+    filter: Optional[Dict[str, Any]] = None,
+    skip: int = 0,
+    size: int = 10,
+    current_user: UserInDB = Depends(get_current_user)
+):
+    """
+    Esegue una ricerca nella collezione specificata in base ad un filtro con paginazione.
+    """
+    verify_user_database(db_name, current_user)
+    payload = {
+        "filter": filter if filter is not None else {},
+        "skip": skip,
+        "size": size
+    }
+    try:
+        response = requests.post(f"{MONGO_SERVICE_URL}/{db_name}/search", json=payload)
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Errore nella ricerca dei documenti."
+            )
+        return response.json()
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Errore nella ricerca dei documenti: {str(e)}"
+        )
